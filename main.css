@@ -1,0 +1,15 @@
+.slider[type=range][orient=vertical] {
+    appearance: slider-vertical;
+    width: 8px;
+    height: 300px;
+    padding: 0 5px;
+}
+.slider {
+    width: 300px;
+}
+.switch{
+    width: 25px;
+}
+img {
+    border: 5px solid #000000;
+}

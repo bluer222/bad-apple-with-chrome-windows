@@ -1,7 +1,10 @@
-const windowW = 134;
-const windowH = 50;
-const width = window.outerWidth;
-const height = window.outerHeight-134;
+var windowW = 150;
+var windowH = 50;
+//resolution for edge detection
+var xres = 10;
+var yres = 50;
+var width = window.outerWidth;
+var height = window.outerHeight-134;
 //ratio of window size to canvas size
 var wtocX;
 var wtocY;
@@ -10,9 +13,14 @@ var windowsToOpen = {
     x: [],
     y: []
 };
+var  darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 async function openit(x, y) {
+    if(darkmode){
         openwindows.push(window.open('black.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px'));
+    }else{
+        openwindows.push(window.open('white.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px'));
+    }
 }
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -43,14 +51,20 @@ function getPixelColor(x, y) {
 }
 function frameDone(frame) {
     //draw it
-    for (let y = 0; y < height / windowH; y++) {
-        for (let x = 0; x < width / windowW; x++) {
-            if(getPixelColor(Math.round(((x * windowW))*wtocX), Math.round(((y * windowH)*wtocY)))){
-                windowsToOpen.x.push(x * windowW);
-                windowsToOpen.y.push(y * windowH);
-
+    let previousPixelColor = false;
+    let previousPixelNumber = 0;
+    for (let y = 0; y < height / yres; y++) {
+        for (let x = 0; x < width / xres; x++) {
+            const pixelColor = getPixelColor(Math.round(((x * xres))*wtocX), Math.round(((y * yres)*wtocY)));
+            if((!previousPixelColor && pixelColor) || (previousPixelNumber>windowW && previousPixelColor==true)){
+                windowsToOpen.x.push(x * xres + (windowW/2));
+                windowsToOpen.y.push(y * yres + (windowH/2));
+                previousPixelNumber = 0;
             }
+            previousPixelColor = pixelColor;
+            previousPixelNumber += xres;
         }
+        previousPixelNumber = 0;
     }
     windowsToOpen.x.forEach((no, index) => openit(windowsToOpen.x[index], windowsToOpen.y[index]));
         setTimeout(() => {   
@@ -58,5 +72,26 @@ function frameDone(frame) {
        openwindows = [];
         }, "1000");
 }
+
+function start(){
+     windowW = Number(document.getElementById("width").value);
+ windowH = Number(document.getElementById("height").value);
+//resolution for edge detection
+ xres = Number(document.getElementById("res").value);
+ yres = 50;
+ width = window.outerWidth;
+ height = window.outerHeight-Number(document.getElementById("fullHeight").value);
+ if(darkmode){
+document.getElementById("bblocker").style.display = "block"
+document.getElementById("bblocker").style.zIndex = "100";
+
+}else{
+    document.getElementById("wblocker").style.display = "block"
+    document.getElementById("wblocker").style.zIndex = "100";
+
+}
+document.getElementById("body").scroll({top: 0,left: 0,behavior: "instant",});
 console.log("starting")
 newFrame(1);
+
+}
