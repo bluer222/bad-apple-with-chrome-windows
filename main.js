@@ -1,7 +1,7 @@
-const windowW = 50;
+const windowW = 134;
 const windowH = 50;
 const width = window.outerWidth;
-const height = window.outerHeight;
+const height = window.outerHeight-134;
 //ratio of window size to canvas size
 var wtocX;
 var wtocY;
