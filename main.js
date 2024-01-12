@@ -1,39 +1,32 @@
-var windowW = 150;
-var windowH = 50;
-//resolution for edge detection
-var xres = 10;
-var yres = 10;
-var height = window.outerHeight - 134;
-var width = height * (4 / 3);
-
-//ratio of window size to canvas size
+//define vars
+var xres;
+var yres ;
+var height;
+var width;
 var wtocX;
 var wtocY;
 var startFrame = 100;
-var startGo = 0;
+var startGo ;
 var darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-function openit(x, y, width) {
-    let c;
-    if (darkmode) {
-        c = window.open('black.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
-    } else {
-        c = window.open('white.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
-    }
-    return c
-}
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+//open function
+function openit(x, y, width) {
+    if (darkmode) {
+        return window.open('black.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
+    } else {
+        return window.open('white.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
+    }
+}
 async function newFrame(number) {
     //load image
-    console.log("new image");
     const img = new Image(); // Create new img element
     img.src = "badApple/bad_apple_" + number.toString().padStart(3, 0) + ".png";
+    //once image loads
     img.addEventListener("load", () => {
         //draw image
         canvas.width = img.width;
         canvas.height = img.height;
-        console.log("image loaded");
         ctx.drawImage(img, 0, 0);
         //process image
         wtocX = canvas.width / width;
@@ -90,9 +83,8 @@ function getPixelColor(x, y) {
     const imageData = imgData.data;
     // Extract the color components (red, green, blue, alpha)
     const red = imageData[0];
-    const green = imageData[1];
-    const blue = imageData[2];
-
+    //const green = imageData[1];
+    //const blue = imageData[2];
     // Return the color as a string in the format "rgb(red, green, blue)"
     return red < 100;
 }
@@ -104,13 +96,12 @@ async function frameDone(frame, windowsToOpen) {
 }
 
 function start() {
-    windowW = Number(document.getElementById("width").value);
-    windowH = Number(document.getElementById("height").value);
     //resolution for edge detection
-    xres = Number(document.getElementById("res").value);
-    yres = 40;
-    width = window.outerWidth;
-    height = window.outerHeight - Number(document.getElementById("fullHeight").value);
+    xres = Number(document.getElementById("xres").value);
+    yres = Number(document.getElementById("yres").value);
+    //screen
+     height = window.outerHeight- Number(document.getElementById("fullHeight").value);
+ width = height * (4 / 3);
     if (darkmode) {
         document.getElementById("bblocker").style.display = "block"
         document.getElementById("bblocker").style.zIndex = "100";
@@ -118,7 +109,6 @@ function start() {
     } else {
         document.getElementById("wblocker").style.display = "block"
         document.getElementById("wblocker").style.zIndex = "100";
-
     }
     document.getElementById("body").scroll({ top: 0, left: 0, behavior: "instant", });
     console.log("starting")
