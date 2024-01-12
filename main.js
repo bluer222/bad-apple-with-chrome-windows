@@ -3,8 +3,9 @@ var windowH = 50;
 //resolution for edge detection
 var xres = 10;
 var yres = 50;
-var width = window.outerWidth;
 var height = window.outerHeight-134;
+var width = height*(4/3);
+
 //ratio of window size to canvas size
 var wtocX;
 var wtocY;
