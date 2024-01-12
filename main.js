@@ -8,26 +8,25 @@ var height = window.outerHeight-134;
 //ratio of window size to canvas size
 var wtocX;
 var wtocY;
-var openwindows = [];
-var windowsToOpen = {
-    x: [],
-    y: []
-};
+var startFrame = 100;
+var startGo = 0;
 var  darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-async function openit(x, y) {
+function openit(x, y) {
+    let c;
     if(darkmode){
-        openwindows.push(window.open('black.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px'));
+         c = window.open('black.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px');
     }else{
-        openwindows.push(window.open('white.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px'));
+         c = window.open('white.html', '_blank', 'width=100,height=100,screenX=' + x + 'px, screenY=' + y + 'px');
     }
+    return c
 }
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-function newFrame(number) {
+async function newFrame(number) {
     console.log("new image");
     const img = new Image(); // Create new img element
-    img.src = "badApple/" + number + ".png";
+    img.src = "badApple/bad_apple_" + number.toString().padStart(3, 0) + ".png";
     img.addEventListener("load", () => {
         canvas.width = img.width;
         canvas.height = img.height;
@@ -35,8 +34,28 @@ function newFrame(number) {
         ctx.drawImage(img, 0, 0);
         wtocX = canvas.width/width;
         wtocY = canvas.height/height;
-        frameDone(number);
-    }, false,);
+        var windowsToOpen = {
+            x: [],
+            y: []
+        };
+        //get windows to open
+    let previousPixelColor = false;
+    let previousPixelNumber = 0;
+    for (let y = 0; y < height / yres; y++) {
+        for (let x = 0; x < width / xres; x++) {
+            const pixelColor = getPixelColor(Math.round(((x * xres))*wtocX), Math.round(((y * yres)*wtocY)));
+            if((!previousPixelColor && pixelColor) || (previousPixelNumber>windowW && previousPixelColor==true)){
+                windowsToOpen.x.push(x * xres);
+                windowsToOpen.y.push(y * yres);
+                previousPixelNumber = 0;
+            }
+            previousPixelColor = pixelColor;
+            previousPixelNumber += xres;
+        }
+        previousPixelNumber = 0;
+    }
+            frameDone(number, windowsToOpen);
+            }, false,);
 }
 function getPixelColor(x, y) {
     const imgData = ctx.getImageData(x, y, 1, 1);
@@ -49,28 +68,11 @@ function getPixelColor(x, y) {
     // Return the color as a string in the format "rgb(red, green, blue)"
     return red<100;
 }
-function frameDone(frame) {
-    //draw it
-    let previousPixelColor = false;
-    let previousPixelNumber = 0;
-    for (let y = 0; y < height / yres; y++) {
-        for (let x = 0; x < width / xres; x++) {
-            const pixelColor = getPixelColor(Math.round(((x * xres))*wtocX), Math.round(((y * yres)*wtocY)));
-            if((!previousPixelColor && pixelColor) || (previousPixelNumber>windowW && previousPixelColor==true)){
-                windowsToOpen.x.push(x * xres + (windowW/2));
-                windowsToOpen.y.push(y * yres + (windowH/2));
-                previousPixelNumber = 0;
-            }
-            previousPixelColor = pixelColor;
-            previousPixelNumber += xres;
-        }
-        previousPixelNumber = 0;
-    }
-    windowsToOpen.x.forEach((no, index) => openit(windowsToOpen.x[index], windowsToOpen.y[index]));
-        setTimeout(() => {   
-       openwindows.forEach((x) => x.close());
-       openwindows = [];
-        }, "1000");
+async function frameDone(frame, windowsToOpen) {
+    newFrame(frame+50);
+    let openwindows = [];
+    windowsToOpen.x.forEach((no, index) => openwindows.push(openit(windowsToOpen.x[index], windowsToOpen.y[index])));
+    openwindows.forEach((x) => x.close());
 }
 
 function start(){
@@ -92,6 +94,5 @@ document.getElementById("bblocker").style.zIndex = "100";
 }
 document.getElementById("body").scroll({top: 0,left: 0,behavior: "instant",});
 console.log("starting")
-newFrame(1);
-
+newFrame(startFrame);
 }
