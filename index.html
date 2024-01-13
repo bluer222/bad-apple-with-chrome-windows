@@ -21,23 +21,27 @@
       <div>
         <input id="xres" class="text" type="text "value="5">
       </div>
-      <p>5.if this is enabled it will skip frames to keep the same speed as the original video</p>
+      <p>5.how many frames to skip(drawing with windows is slow so frames should be skipped)</p>
+      <div>
+        <input id="framesToSkip" class="text" type="text "value="50">
+      </div>
+      <p>6.if this is enabled it will skip frames to keep the same speed as the original video THIS OVERRIEDS NUMBER 5</p>
       <div>
         Skip Frames:<input id="skipFrames" type="checkbox" checked>
       </div>
-      <p>6.if this is enabled it will show every frame the same ammount of time</p>
+      <p>7.if this is enabled it will show every frame the same ammount of time THIS OVERRIDES NUMBER 6</p>
       <div>
         Same Time:<input id="sameTime" type="checkbox">
       </div>
-      <p>7.if this is disabled it will use a window even if the part it needs to color in is less wide than the window for example if it needs to color in a 10 pixel thing but the window minimum size is 100 it will do it anyway</p>
+      <p>8.if this is disabled it will use a window even if the part it needs to color in is less wide than the window for example if it needs to color in a 10 pixel thing but the window minimum size is 100 it will do it anyway</p>
       <div>
         Too Small:<input id="tooSmall" type="checkbox" checked>
       </div>
-      <p>8.slide this slider so that its width is the same as the windows width, this is only needed if the too small checkbox is checked</p>
+      <p>9.slide this slider so that its width is the same as the windows width, this is only needed if the too small checkbox is checked</p>
       <div class="slidecontainer">
           <input id="wwidth" class="slider" type="range" min="1" max="300" value="150">
         </div>
-      <p>9.start</p>
+      <p>10.start</p>
       <button type="button" onclick="start();">start</button>
       </div>
     <div id="bblocker" style="top:0px;left:0px;bottom:0px;width:100%; height:100%; display:none; background-color: white; z-index:-1000; position:absolute;"></div>

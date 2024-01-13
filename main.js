@@ -115,12 +115,7 @@ async function frameDone(frame, windowsToOpen) {
     let prevTime = endTime-startTime;
 if(sameTime){
     setTimeout(()=>{
-        openwindows.forEach((x) => x.close());
-        if(skipFrames){
-        newFrame(frame + prevTime/33);
-        }else{
-            newFrame(frame + framesToSkip);
-        }
+        newFrame(frame + framesToSkip);
     }, 1000-prevTime)
 }else{
     openwindows.forEach((x) => x.close());
@@ -140,6 +135,7 @@ function start() {
     skipFrames = document.getElementById("skipFrames").checked;
     sameTime = document.getElementById("sameTime").checked;
     windowWidth = document.getElementById("wwidth").value;
+    framesToSkip = document.getElementById("framesToSkip").value;
     //screen
     height = window.outerHeight - Number(document.getElementById("fullHeight").value);
     width = height * (4 / 3);
