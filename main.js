@@ -117,7 +117,7 @@ if(sameTime){
     setTimeout(()=>{
         openwindows.forEach((x) => x.close());
         newFrame(frame + framesToSkip);
-    }, 1000-prevTime)
+    }, 2000-prevTime)
 }else{
     openwindows.forEach((x) => x.close());
     if(skipFrames){
@@ -136,7 +136,7 @@ function start() {
     skipFrames = document.getElementById("skipFrames").checked;
     sameTime = document.getElementById("sameTime").checked;
     windowWidth = document.getElementById("wwidth").value;
-    framesToSkip = document.getElementById("framesToSkip").value;
+    framesToSkip = Number(document.getElementById("framesToSkip").value);
     //screen
     height = window.outerHeight - Number(document.getElementById("fullHeight").value);
     width = height * (4 / 3);
