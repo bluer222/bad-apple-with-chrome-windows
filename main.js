@@ -5,7 +5,7 @@ var height;
 var width;
 var wtocX;
 var wtocY;
-var startFrame = 200;
+var startFrame = 1;
 var startGo;
 var darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 var skipFrames = false;
