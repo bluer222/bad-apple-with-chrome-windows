@@ -115,6 +115,7 @@ async function frameDone(frame, windowsToOpen) {
     let prevTime = endTime-startTime;
 if(sameTime){
     setTimeout(()=>{
+        openwindows.forEach((x) => x.close());
         newFrame(frame + framesToSkip);
     }, 1000-prevTime)
 }else{
