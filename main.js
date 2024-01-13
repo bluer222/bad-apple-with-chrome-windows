@@ -11,6 +11,7 @@ var darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 var skipFrames = false;
 var tooSmall = true;
 var sameTime = false;
+var windowWidth = 150;
 var framesToSkip = 50;
 var nextFrame = {
     x: [],
@@ -26,13 +27,11 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 //open function
 function openit(x, y, width) {
-    if((width > 0 && !tooSmall) || (tooSmall && width>100)){
     if (darkmode) {
         return window.open('black.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
     } else {
         return window.open('white.html', '_blank', 'width=' + width + 'px,height=100px,screenX=' + x + 'px, screenY=' + y + 'px');
     }
-}
 }
 async function newFrame(frame) {
     //load image
@@ -81,7 +80,7 @@ async function newFrame(frame) {
                 }
             }
             if (currentWindow.x != "") {
-                if((currentWindow.width > 0 && !tooSmall) || (tooSmall && currentWindow.width>100)){
+                if((currentWindow.width > 0 && !tooSmall) || (tooSmall && currentWindow.width>windowWidth)){
                     nextFrame.x.push(currentWindow.x);
                     nextFrame.y.push(currentWindow.y);
                     nextFrame.width.push(currentWindow.width);
@@ -142,6 +141,7 @@ function start() {
     tooSmall = document.getElementById("tooSmall").checked
     skipFrames = document.getElementById("skipFrames").checked;
     sameTime = document.getElementById("sameTime").checked;
+    windowWidth = document.getElementById("wwidth").value;
     //screen
     height = window.outerHeight - Number(document.getElementById("fullHeight").value);
     width = height * (4 / 3);
