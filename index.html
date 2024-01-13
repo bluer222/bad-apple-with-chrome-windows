@@ -20,7 +20,7 @@
           <input id="fullHeight" class="slider" type="range" orient="vertical" min="1" max="300" value="150">
         </div>
         <img src="calibration/3.png">
-      <p>4.what x resolution(this can be low)</p>
+      <p>4.what x resolution(dont do below 1)</p>
       <div>
         <input id="xres" class="text" type="text "value="1">
       </div>
@@ -28,7 +28,7 @@
       <div>
         <input id="framesToSkip" class="text" type="text "value="50">
       </div>
-      <p>6.if this is enabled it will skip frames to keep the same speed as the original video THIS OVERRIEDS NUMBER 5</p>
+      <p>6.if this is enabled it will skip frames adaptively to keep the same speed as the original video THIS OVERRIEDS NUMBER 5</p>
       <div>
         Skip Frames:<input id="skipFrames" type="checkbox" checked>
       </div>
@@ -36,11 +36,11 @@
       <div>
         Same Time:<input id="sameTime" type="checkbox">
       </div>
-      <p>8.if this is disabled it will use a window even if the part it needs to color in is less wide than the window for example if it needs to color in a 10 pixel thing but the window minimum size is 100 it will do it anyway</p>
+      <p>8.how close a windows size has to be to the part that needs to be colored, for example if the minimum window size is 150px(limited by the browser) and the part it needs to color in is 100px then it will only draw if this is greater than 50</p>
       <div>
-        Too Small:<input id="tooSmall" type="checkbox" checked>
+        Too Small:        <input id="tooSmall" class="text" type="text "value="50">
       </div>
-      <p>9.slide this slider so that its width is the same as the windows width, this is only needed if the too small checkbox is checked</p>
+      <p>9.slide this slider so that its width is the same as the windows width, this is for number 8</p>
       <div class="slidecontainer">
           <input id="wwidth" class="slider" type="range" min="1" max="300" value="150">
         </div>

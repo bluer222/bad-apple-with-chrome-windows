@@ -5,11 +5,11 @@ var height;
 var width;
 var wtocX;
 var wtocY;
-var startFrame = 1;
+var startFrame = 6348;
 var startGo;
 var darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 var skipFrames = false;
-var tooSmall = true;
+var tooSmall = 50;
 var sameTime = false;
 var windowWidth = 150;
 var framesToSkip = 50;
@@ -52,7 +52,6 @@ async function captureScreenshot() {
 if (!darkmode) {
     alert("your browser is on light mode, dark mode is recomended for best quality, you dont have to switch though")
 }
-const myWorker = new Worker("worker.js");
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -96,7 +95,7 @@ async function newFrame(frame) {
                     if (pixelColor) {
                         currentWindow.width += xres;
                     } else {
-                        if((currentWindow.width > 0 && !tooSmall) || (tooSmall && currentWindow.width>100)){
+                        if(currentWindow.width>windowWidth-tooSmall){
                         nextFrame.x.push(currentWindow.x);
                         nextFrame.y.push(currentWindow.y);
                         nextFrame.width.push(currentWindow.width);
@@ -111,7 +110,7 @@ async function newFrame(frame) {
                 }
             }
             if (currentWindow.x != "") {
-                if((currentWindow.width > 0 && !tooSmall) || (tooSmall && currentWindow.width>windowWidth)){
+                if(currentWindow.width>windowWidth-tooSmall){
                     nextFrame.x.push(currentWindow.x);
                     nextFrame.y.push(currentWindow.y);
                     nextFrame.width.push(currentWindow.width);
@@ -144,10 +143,7 @@ async function frameDone(frame, windowsToOpen) {
     let endTime = Date.now();
     let prevTime = endTime-startTime;
     if(recording){
-        setTimeout(()=>{
         captureScreenshot();
-    }, 200)
-
     }
 if(sameTime){
     setTimeout(()=>{
@@ -168,7 +164,7 @@ function start() {
     //resolution for edge detection
     xres = Number(document.getElementById("xres").value);
     yres = Number(document.getElementById("yres").value);
-    tooSmall = document.getElementById("tooSmall").checked
+    tooSmall = Number(document.getElementById("tooSmall"));
     skipFrames = document.getElementById("skipFrames").checked;
     sameTime = document.getElementById("sameTime").checked;
     windowWidth = document.getElementById("wwidth").value;
