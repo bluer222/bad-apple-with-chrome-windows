@@ -18,13 +18,44 @@ var nextFrame = {
     y: [],
     width: []
 };
+var recording;
+var video = false;
+async function record(){
+    recording = true
+          // Prompt the user to select a screen or window to capture
+          const stream = await navigator.mediaDevices.getDisplayMedia();
+           video = document.createElement('video');
+          video.srcObject = stream;
+          await video.play();
+}
+async function captureScreenshot() {
+    try {
+      // Create a canvas to draw the video frame onto
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+  
+      // Draw the video frame onto the canvas
+      context.drawImage(video, 0, 0);
+  
+      // Create a link to download the canvas as an image
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'screenshot.png';
+      link.click();
+  
+    } catch (error) {
+      console.error('Error capturing screenshot:', error);
+    }
+  }
 if (!darkmode) {
     alert("your browser is on light mode, dark mode is recomended for best quality, you dont have to switch though")
 }
 const myWorker = new Worker("worker.js");
 
 const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
 //open function
 function openit(x, y, width) {
     if (darkmode) {
@@ -112,11 +143,17 @@ async function frameDone(frame, windowsToOpen) {
     windowsToOpen.x.forEach((no, index) => openwindows.push(openit(windowsToOpen.x[index], windowsToOpen.y[index], windowsToOpen.width[index])));
     let endTime = Date.now();
     let prevTime = endTime-startTime;
+    if(recording){
+        setTimeout(()=>{
+        captureScreenshot();
+    }, 200)
+
+    }
 if(sameTime){
     setTimeout(()=>{
         openwindows.forEach((x) => x.close());
         newFrame(frame + framesToSkip);
-    }, 2000-prevTime)
+    }, 1500-prevTime)
 }else{
     openwindows.forEach((x) => x.close());
     if(skipFrames){

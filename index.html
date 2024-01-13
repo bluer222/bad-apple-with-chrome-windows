@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="main.css">
     <h1>Bad Apple With Browser Windows</h1>
     <h3>This was built for chromium on x11, from my testing it does not work on firefox</h3>
+    <p>clicking this button will make it take a screenshot after the frame finishes and download it</p>
+    <button type="button" onclick="record();">Record</button>
+
     <h3>this calibration should allow it to work on any chromium based browser</h3>
     <h3>Calibration:</h3>
     <p>1.open test window</p>
@@ -47,4 +50,6 @@
     <div id="bblocker" style="top:0px;left:0px;bottom:0px;width:100%; height:100%; display:none; background-color: white; z-index:-1000; position:absolute;"></div>
     <div id="wblocker" style="top:0px;left:0px;bottom:0px;width:100%; height:100%; display:none; background-color: black; z-index:-100; position:absolute;"></div>
 
-    <canvas style="top:0px;left:0px;position:absolute;width:100%; height:100%;z-index:-1100;" id="canvas"></div></body><script src="main.js"></script>
+    <canvas style="top:0px;left:0px;position:absolute;width:100%; height:100%;z-index:-1100;" id="canvas"></div></body>
+      <script src="htmltocanvas.js"></script>
+      <script src="main.js"></script>
