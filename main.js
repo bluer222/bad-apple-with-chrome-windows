@@ -89,7 +89,6 @@ async function newFrame(frame) {
 
             }
         }
-        console.log(nextFrame);
            frameDone(frame, nextFrame);
     }, false,);
 }
