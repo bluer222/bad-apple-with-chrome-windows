@@ -113,17 +113,15 @@ async function frameDone(frame, windowsToOpen) {
     windowsToOpen.x.forEach((no, index) => openwindows.push(openit(windowsToOpen.x[index], windowsToOpen.y[index], windowsToOpen.width[index])));
     let endTime = Date.now();
     let prevTime = endTime-startTime;
-    openwindows.forEach((x) => x.close());
-
 if(sameTime){
     setTimeout(()=>{
-    openwindows.forEach((x) => x.close());
-    if(skipFrames){
+        openwindows.forEach((x) => x.close());
+        if(skipFrames){
         newFrame(frame + prevTime/33);
         }else{
             newFrame(frame + framesToSkip);
         }
-    }, 750-prevTime)
+    }, 1000-prevTime)
 }else{
     openwindows.forEach((x) => x.close());
     if(skipFrames){
