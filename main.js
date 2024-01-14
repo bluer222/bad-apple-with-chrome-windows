@@ -139,6 +139,7 @@ function getPixelColor(x, y) {
 async function frameDone(frame, windowsToOpen) {
     let startTime = Date.now();
     let openwindows = [];
+    console.log(windowsToOpen);
     windowsToOpen.x.forEach((no, index) => openwindows.push(openit(windowsToOpen.x[index], windowsToOpen.y[index], windowsToOpen.width[index])));
     let endTime = Date.now();
     let prevTime = endTime-startTime;
@@ -164,7 +165,7 @@ function start() {
     //resolution for edge detection
     xres = Number(document.getElementById("xres").value);
     yres = Number(document.getElementById("yres").value);
-    tooSmall = Number(document.getElementById("tooSmall"));
+    tooSmall = Number(document.getElementById("tooSmall").value);
     skipFrames = document.getElementById("skipFrames").checked;
     sameTime = document.getElementById("sameTime").checked;
     windowWidth = document.getElementById("wwidth").value;
