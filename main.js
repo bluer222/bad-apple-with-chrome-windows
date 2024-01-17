@@ -7,7 +7,7 @@ var wtocX;
 var wtocY;
 var startFrame = 1;
 var startGo;
-var darkmode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+var darkmode = true; //window.matchMedia('(prefers-color-scheme: dark)').matches;
 var skipFrames = false;
 var tooSmall = 50;
 var sameTime = false;
@@ -123,6 +123,7 @@ async function newFrame(frame) {
     }, false,);
 }
 function getPixelColor(x, y) {
+    console.log("x:" + x + " y:" + y);
     const imgData = ctx.getImageData(x, y, 1, 1);
     const imageData = imgData.data;
     // Extract the color components (red, green, blue, alpha)
@@ -146,6 +147,7 @@ async function frameDone(frame, windowsToOpen) {
     if(recording){
         captureScreenshot();
     }
+    /*
 if(sameTime){
     setTimeout(()=>{
         openwindows.forEach((x) => x.close());
@@ -158,7 +160,7 @@ if(sameTime){
         }else{
             newFrame(frame + framesToSkip);
         }
-}
+}*/
 }
 
 function start() {
