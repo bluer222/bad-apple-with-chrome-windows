@@ -20,6 +20,7 @@ var nextFrame = {
 };
 var recording;
 var video = false;
+var frametimes = [];
 async function record(){
     recording = true
           // Prompt the user to select a screen or window to capture
@@ -123,7 +124,6 @@ async function newFrame(frame) {
     }, false,);
 }
 function getPixelColor(x, y) {
-    console.log("x:" + x + " y:" + y);
     const imgData = ctx.getImageData(x, y, 1, 1);
     const imageData = imgData.data;
     // Extract the color components (red, green, blue, alpha)
@@ -140,17 +140,18 @@ function getPixelColor(x, y) {
 async function frameDone(frame, windowsToOpen) {
     let startTime = Date.now();
     let openwindows = [];
-    console.log(windowsToOpen);
     windowsToOpen.x.forEach((no, index) => openwindows.push(openit(windowsToOpen.x[index], windowsToOpen.y[index], windowsToOpen.width[index])));
     let endTime = Date.now();
     let prevTime = endTime-startTime;
+    frametimes.push(prevTime);
     if(recording){
         captureScreenshot();
     }
-    /*
+    
 if(sameTime){
     setTimeout(()=>{
         openwindows.forEach((x) => x.close());
+        //window.alert("average frametime is:" + frametimes.reduce((a,b)=>a+b)/frametimes.length)
         newFrame(frame + framesToSkip);
     }, 1500-prevTime)
 }else{
@@ -160,7 +161,7 @@ if(sameTime){
         }else{
             newFrame(frame + framesToSkip);
         }
-}*/
+}
 }
 
 function start() {
